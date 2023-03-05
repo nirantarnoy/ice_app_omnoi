@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:ice_app_new/models/transferin.dart';
-import 'package:ice_app_new/providers/customer.dart';
-import 'package:ice_app_new/providers/order.dart';
-import 'package:ice_app_new/providers/transferin.dart';
+import 'package:ice_app_new_omnoi/models/transferin.dart';
+import 'package:ice_app_new_omnoi/providers/customer.dart';
+import 'package:ice_app_new_omnoi/providers/order.dart';
+import 'package:ice_app_new_omnoi/providers/transferin.dart';
 import 'package:intl/intl.dart';
-import 'package:ice_app_new/pages/createtransfer.dart';
-import 'package:ice_app_new/providers/transferout.dart';
+// import 'package:ice_app_new_omnoi/pages/createtransfer.dart';
+// import 'package:ice_app_new_omnoi/providers/transferout.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/transferout.dart';
+// import '../../models/transferout.dart';
 
 class Transferinitem extends StatelessWidget {
   // List<Transferout> _orders = [];
@@ -241,7 +241,7 @@ class _ItemsState extends State<Items> {
                   ),
                   content: Text('จำนวนขายมากกว่าจำนวนคงเหลือ'),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         setState(() {
                           _textqtyController.text = value.toString();
@@ -278,7 +278,7 @@ class _ItemsState extends State<Items> {
     )
         .then(
       (_) {
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
             children: <Widget>[
               Icon(
@@ -453,12 +453,16 @@ class _ItemsState extends State<Items> {
                               child: SizedBox(
                                 height: 55.0,
                                 width: targetWidth,
-                                child: new RaisedButton(
-                                    elevation: 0.2,
-                                    shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0)),
-                                    color: Colors.blue[700],
+                                child: new ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue[700],
+                                      elevation: 0.2,
+                                      shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30.0)),
+                                      textStyle: TextStyle(color: Colors.white),
+                                      padding: EdgeInsets.only(left: 8),
+                                    ),
                                     child: new Text('เงินสด',
                                         style: new TextStyle(
                                             fontSize: 20.0,
@@ -475,12 +479,16 @@ class _ItemsState extends State<Items> {
                               child: SizedBox(
                                 height: 55.0,
                                 width: targetWidth,
-                                child: new RaisedButton(
-                                    elevation: 0.2,
-                                    shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0)),
-                                    color: Colors.orange[700],
+                                child: new ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange[700],
+                                      elevation: 0.2,
+                                      shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30.0)),
+                                      textStyle: TextStyle(color: Colors.white),
+                                      padding: EdgeInsets.only(left: 8),
+                                    ),
                                     child: new Text('เงินเชื่อ',
                                         style: new TextStyle(
                                             fontSize: 20.0,

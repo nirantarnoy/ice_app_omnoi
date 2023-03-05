@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/pages/transferout.dart';
-import 'package:ice_app_new/pages/transferin.dart';
+import 'package:ice_app_new_omnoi/pages/transferout.dart';
+import 'package:ice_app_new_omnoi/pages/transferin.dart';
 
 class TransferPage extends StatefulWidget {
   @override

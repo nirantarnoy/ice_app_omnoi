@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/providers/issuedata.dart';
-import 'package:ice_app_new/widgets/transferout/transfer_product_item.dart';
+import 'package:ice_app_new_omnoi/providers/issuedata.dart';
+import 'package:ice_app_new_omnoi/widgets/transferout/transfer_product_item.dart';
 import 'package:provider/provider.dart';
 
 class CreatetransferPage extends StatefulWidget {

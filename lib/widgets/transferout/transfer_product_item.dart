@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:ice_app_new/pages/transfersuccess.dart';
-import 'package:ice_app_new/providers/car.dart';
-import 'package:ice_app_new/providers/transferout.dart';
+import 'package:ice_app_new_omnoi/pages/transfersuccess.dart';
+import 'package:ice_app_new_omnoi/providers/car.dart';
+import 'package:ice_app_new_omnoi/providers/transferout.dart';
 import 'package:intl/intl.dart';
-import 'package:ice_app_new/models/issueitems.dart';
-import 'package:ice_app_new/models/transferproduct.dart';
-import 'package:ice_app_new/providers/issuedata.dart';
+// import 'package:ice_app_new_omnoi/models/issueitems.dart';
+import 'package:ice_app_new_omnoi/models/transferproduct.dart';
+import 'package:ice_app_new_omnoi/providers/issuedata.dart';
 import 'package:provider/provider.dart';
 
 class TransferProductItem extends StatefulWidget {
@@ -163,219 +163,250 @@ class _TransferProductItemState extends State<TransferProductItem> {
               ),
             ),
             Expanded(
-              child: GestureDetector(
-                child: Container(
-                  color: Colors.green[700],
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(width: 5),
-                        Text(
-                          'ตกลง',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      ],
+              child: Consumer<IssueData>(
+                builder: (context, totals, _) => GestureDetector(
+                  child: Container(
+                    color: Colors.green[700],
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(width: 5),
+                          Text(
+                            'ตกลง',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                onTap: () {
-                  return showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width - 10,
-                            height: MediaQuery.of(context).size.height - 500,
-                            // height: MediaQuery.of(context).size.height - 100,
-                            // width: double.infinity,
-                            // height: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    SizedBox(height: 20),
-                                    Center(
-                                      child: Text(
-                                        "โอนสินค้าไปยัง",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    SizedBox(height: 20),
-                                    Row(
+                  onTap: () {
+                    if (totals.transferouttotal > 0) {
+                      // check transfer qty > 0
+                      return showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 10,
+                                height:
+                                    MediaQuery.of(context).size.height - 500,
+                                // height: MediaQuery.of(context).size.height - 100,
+                                // width: double.infinity,
+                                // height: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        FutureBuilder(
-                                            future: _carFuture,
-                                            builder: (context, dataSapshort) {
-                                              if (dataSapshort
-                                                      .connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                );
-                                              } else {
-                                                if (dataSapshort.error !=
-                                                    null) {
-                                                  return Center(
-                                                      child:
-                                                          Text('Data Error'));
-                                                } else {
-                                                  return Expanded(
-                                                    child: Consumer<CarData>(
-                                                      builder:
-                                                          (context, _car, _) =>
-                                                              TypeAheadField(
-                                                        textFieldConfiguration: TextFieldConfiguration(
-                                                            controller:
-                                                                _typeAheadController,
-                                                            autofocus: false,
-                                                            style: DefaultTextStyle.of(
-                                                                    context)
-                                                                .style
-                                                                .copyWith(
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .normal),
-                                                            decoration: InputDecoration(
-                                                                border:
-                                                                    OutlineInputBorder(),
-                                                                hintText:
-                                                                    'เลือกรถที่ต้องการโอน')),
-                                                        // suggestionsCallback: (pattern) async {
-                                                        //   return await BackendService.getSuggestions(pattern);
-                                                        // },
-                                                        suggestionsCallback:
-                                                            (pattern) async {
-                                                          return await _car
-                                                              .findCar(pattern);
-                                                        },
-                                                        itemBuilder: (context,
-                                                            suggestion) {
-                                                          return ListTile(
-                                                            // leading: Icon(Icons.shopping_cart),
-                                                            title: Text(
-                                                                suggestion
-                                                                    .route_name),
-                                                            // subtitle: Text('\$${suggestion['price']}'),
-                                                          );
-                                                        },
-                                                        onSuggestionSelected:
-                                                            (items) {
-                                                          print('customer is ' +
-                                                              items.id);
-                                                          setState(() {
-                                                            selectedValue =
-                                                                items.route_id;
-                                                            selectedCarValue =
-                                                                items.id;
-
-                                                            _typeAheadController
-                                                                    .text =
-                                                                items
-                                                                    .route_name;
-                                                          });
-                                                        },
-                                                        noItemsFoundBuilder:
-                                                            (context) {
-                                                          return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: <
-                                                                  Widget>[
-                                                                Text(
-                                                                  'ไม่พบข้อมูล',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16,
-                                                                      color: Colors
-                                                                          .red),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                              }
-                                            }),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
+                                        SizedBox(height: 20),
+                                        Center(
+                                          child: Text(
+                                            "โอนสินค้าไปยัง",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        SizedBox(height: 20),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
                                           children: <Widget>[
-                                            Consumer<IssueData>(
-                                              builder:
-                                                  (context, transferdata, _) =>
-                                                      RaisedButton(
-                                                padding:
-                                                    EdgeInsets.only(right: 8),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                color: Colors.blue[500],
-                                                textColor: Colors.white,
-                                                onPressed: () {
-                                                  _submitForm(
-                                                    transferdata
-                                                        .transferproductitems,
-                                                    selectedValue,
-                                                    selectedCarValue,
-                                                  );
-                                                },
-                                                child: Text("บันทีก"),
-                                              ),
-                                            ),
-                                            SizedBox(width: 20),
-                                            RaisedButton(
-                                              padding: EdgeInsets.only(left: 8),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15)),
-                                              color: Colors.orange,
-                                              textColor: Colors.white,
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("ยกเลิก"),
-                                            ),
+                                            FutureBuilder(
+                                                future: _carFuture,
+                                                builder:
+                                                    (context, dataSapshort) {
+                                                  if (dataSapshort
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    );
+                                                  } else {
+                                                    if (dataSapshort.error !=
+                                                        null) {
+                                                      return Center(
+                                                          child: Text(
+                                                              'Data Error'));
+                                                    } else {
+                                                      return Expanded(
+                                                        child:
+                                                            Consumer<CarData>(
+                                                          builder: (context,
+                                                                  _car, _) =>
+                                                              TypeAheadField(
+                                                            textFieldConfiguration: TextFieldConfiguration(
+                                                                controller:
+                                                                    _typeAheadController,
+                                                                autofocus:
+                                                                    false,
+                                                                style: DefaultTextStyle.of(
+                                                                        context)
+                                                                    .style
+                                                                    .copyWith(
+                                                                        fontStyle:
+                                                                            FontStyle
+                                                                                .normal),
+                                                                decoration: InputDecoration(
+                                                                    border:
+                                                                        OutlineInputBorder(),
+                                                                    hintText:
+                                                                        'เลือกรถที่ต้องการโอน')),
+                                                            // suggestionsCallback: (pattern) async {
+                                                            //   return await BackendService.getSuggestions(pattern);
+                                                            // },
+                                                            suggestionsCallback:
+                                                                (pattern) async {
+                                                              return await _car
+                                                                  .findCar(
+                                                                      pattern);
+                                                            },
+                                                            itemBuilder:
+                                                                (context,
+                                                                    suggestion) {
+                                                              return ListTile(
+                                                                // leading: Icon(Icons.shopping_cart),
+                                                                title: Text(
+                                                                    suggestion
+                                                                        .route_name),
+                                                                // subtitle: Text('\$${suggestion['price']}'),
+                                                              );
+                                                            },
+                                                            onSuggestionSelected:
+                                                                (items) {
+                                                              print(
+                                                                  'customer is ' +
+                                                                      items.id);
+                                                              setState(() {
+                                                                selectedValue =
+                                                                    items
+                                                                        .route_id;
+                                                                selectedCarValue =
+                                                                    items.id;
+
+                                                                _typeAheadController
+                                                                        .text =
+                                                                    items
+                                                                        .route_name;
+                                                              });
+                                                            },
+                                                            noItemsFoundBuilder:
+                                                                (context) {
+                                                              return Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                      'ไม่พบข้อมูล',
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          color:
+                                                                              Colors.red),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                  }
+                                                }),
                                           ],
                                         ),
+                                        SizedBox(height: 10),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Consumer<IssueData>(
+                                                  builder: (context,
+                                                          transferdata, _) =>
+                                                      ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Colors.blue[500],
+                                                      elevation: 5,
+                                                      shape: new RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              new BorderRadius
+                                                                      .circular(
+                                                                  15.0)),
+                                                      textStyle: TextStyle(
+                                                          color: Colors.white),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8),
+                                                    ),
+                                                    onPressed: () {
+                                                      _submitForm(
+                                                        transferdata
+                                                            .transferproductitems,
+                                                        selectedValue,
+                                                        selectedCarValue,
+                                                      );
+                                                    },
+                                                    child: Text("บันทีก"),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 20),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.orange,
+                                                    elevation: 5,
+                                                    shape:
+                                                        new RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                        .circular(
+                                                                    15.0)),
+                                                    textStyle: TextStyle(
+                                                        color: Colors.white),
+                                                    padding: EdgeInsets.only(
+                                                        left: 8),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("ยกเลิก"),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
                                       ],
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      });
-                },
+                            );
+                          });
+                    }
+                  },
+                ),
               ),
             ),
           ],
@@ -526,7 +557,7 @@ class _ItemsState extends State<Items> {
                                   title: Text('แจ้งเตือน'),
                                   content: Text('จำนวนไม่พอสำหรับการทำรายการ'),
                                   actions: <Widget>[
-                                    FlatButton(
+                                    TextButton(
                                         onPressed: () {
                                           _transferqtyController.text =
                                               widget._avl_qty;

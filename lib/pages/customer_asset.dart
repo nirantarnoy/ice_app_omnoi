@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ice_app_new/models/car.dart';
-import 'package:ice_app_new/models/customer_asset.dart';
-import 'package:ice_app_new/pages/assetcheck.dart';
-import 'package:ice_app_new/pages/ordercheckout.dart';
-import 'package:ice_app_new/providers/paymentreceive.dart';
-import 'package:ice_app_new/providers/product.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:ice_app_new/models/car.dart';
+import 'package:ice_app_new_omnoi/models/customer_asset.dart';
+import 'package:ice_app_new_omnoi/pages/assetcheck.dart';
+// import 'package:ice_app_new/pages/ordercheckout.dart';
+// import 'package:ice_app_new/providers/paymentreceive.dart';
+// import 'package:ice_app_new/providers/product.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
-import 'package:ice_app_new/providers/customer.dart';
+import 'package:ice_app_new_omnoi/providers/customer.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:ice_app_new/providers/issuedata.dart';
+// import 'package:ice_app_new/providers/issuedata.dart';
 
-import 'package:ice_app_new/models/customers.dart';
-import 'package:ice_app_new/providers/customer.dart';
+// import 'package:ice_app_new/models/customers.dart';
+// import 'package:ice_app_new/providers/customer.dart';
 
-import 'package:ice_app_new/models/addorder.dart';
-import 'package:ice_app_new/models/products.dart';
+import 'package:ice_app_new_omnoi/models/addorder.dart';
+// import 'package:ice_app_new/models/products.dart';
 
 class CustomerAssetPage extends StatefulWidget {
   static const routeName = '/createordernew';
@@ -97,7 +97,7 @@ class _CustomerAssetPageState extends State<CustomerAssetPage> {
             title: Text(title),
             content: Text(text),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -121,7 +121,8 @@ class _CustomerAssetPageState extends State<CustomerAssetPage> {
                   Navigator.of(context)
                       .pushNamed(AssetcheckPage.routeName, arguments: {
                     'customer_id': selectedValue,
-                    'product_id': assets[index].product_id,
+                    'product_id': assets[index].id,
+                    'product_code': assets[index].code,
                     'product_name': assets[index].name,
                   });
                 }, // Navigator.of(context).pushNamed(OrderDetailPage.routeName),
@@ -129,7 +130,7 @@ class _CustomerAssetPageState extends State<CustomerAssetPage> {
                   children: <Widget>[
                     ListTile(
                       title: Text(
-                        "${assets[index].name}",
+                        "${assets[index].code} ${assets[index].name}",
                         style: TextStyle(fontSize: 18, color: Colors.black),
                       ),
                       // subtitle: Text(
@@ -260,9 +261,9 @@ class _CustomerAssetPageState extends State<CustomerAssetPage> {
                         SizedBox(
                           width: 5,
                         ),
-                        FlatButton(
-                          color: Colors.grey[100],
-                          height: 30,
+                        TextButton(
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.grey[100]),
                           onPressed: () {
                             selectedValue = '';
                             selectedValue = '';
@@ -289,10 +290,10 @@ class _CustomerAssetPageState extends State<CustomerAssetPage> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                "รายการอุปกรณ์",
-                style: TextStyle(color: Colors.grey[600], fontSize: 18),
-              ),
+              // Text(
+              //   "รายการอุปกรณ์",
+              //   style: TextStyle(color: Colors.grey[600], fontSize: 18),
+              // ),
               SizedBox(
                 height: 10,
               ),

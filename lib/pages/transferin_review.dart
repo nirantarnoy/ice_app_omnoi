@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/models/products.dart';
-import 'package:ice_app_new/models/reviewload.dart';
-import 'package:ice_app_new/models/transferin.dart';
-import 'package:ice_app_new/pages/issuesuccess.dart';
-import 'package:ice_app_new/pages/journalissue.dart';
-import 'package:ice_app_new/providers/issuedata.dart';
-import 'package:ice_app_new/providers/transferin.dart';
+// import 'package:ice_app_new_omnoi/models/products.dart';
+// import 'package:ice_app_new_omnoi/models/reviewload.dart';
+import 'package:ice_app_new_omnoi/models/transferin.dart';
+import 'package:ice_app_new_omnoi/pages/issuesuccess.dart';
+// import 'package:ice_app_new_omnoi/pages/journalissue.dart';
+// import 'package:ice_app_new_omnoi/providers/issuedata.dart';
+import 'package:ice_app_new_omnoi/providers/transferin.dart';
 import 'package:provider/provider.dart';
 
 class TransferInReviewPage extends StatefulWidget {
@@ -127,7 +127,7 @@ class _TransferInReviewPageState extends State<TransferInReviewPage> {
                             //           content:
                             //               Text('คุณต้องการยืนยันการใช่หรือไม่'),
                             //           actions: <Widget>[
-                            //             FlatButton(
+                            //             TextButton(
                             //               onPressed: () {
                             //                 Provider.of<TransferinData>(context,
                             //                         listen: false)
@@ -145,7 +145,7 @@ class _TransferInReviewPageState extends State<TransferInReviewPage> {
                             //               },
                             //               child: Text('ยืนยัน'),
                             //             ),
-                            //             FlatButton(
+                            //             TextButton(
                             //               onPressed: () {
                             //                 Navigator.of(context).pop(false);
                             //               },
@@ -189,7 +189,7 @@ class _TransferInReviewPageState extends State<TransferInReviewPage> {
                                       content:
                                           Text('คุณต้องการยืนยันการใช่หรือไม่'),
                                       actions: <Widget>[
-                                        FlatButton(
+                                        TextButton(
                                           onPressed: () {
                                             Provider.of<TransferinData>(context,
                                                     listen: false)
@@ -208,7 +208,7 @@ class _TransferInReviewPageState extends State<TransferInReviewPage> {
                                           },
                                           child: Text('ยืนยัน'),
                                         ),
-                                        FlatButton(
+                                        TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop(false);
                                           },

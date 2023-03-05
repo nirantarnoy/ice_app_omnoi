@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:ice_app_new/pages/qrscan_create.dart';
+import 'package:ice_app_new_omnoi/pages/qrscan_create.dart';
 
 class QrscanPage extends StatefulWidget {
   @override
@@ -66,12 +66,15 @@ class _QrscanPageState extends State<QrscanPage> {
                 child: SizedBox(
                   height: 45.0,
                   width: targetWidth,
-                  child: new RaisedButton(
-                      elevation: 0,
-                      splashColor: Colors.grey,
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0)),
-                      color: Colors.blue[700],
+                  child: new ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[700],
+                        elevation: 0,
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)),
+                        textStyle: TextStyle(color: Colors.white),
+                        padding: EdgeInsets.only(left: 8),
+                      ),
                       child: new Text('สแกน QR code',
                           style: new TextStyle(
                               fontSize: 18.0, color: Colors.white)),
@@ -86,12 +89,15 @@ class _QrscanPageState extends State<QrscanPage> {
                 child: SizedBox(
                   height: 45.0,
                   width: targetWidth,
-                  child: new RaisedButton(
-                    elevation: 0,
-                    splashColor: Colors.grey,
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0)),
-                    color: Colors.orange[300],
+                  child: new ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange[300],
+                      elevation: 0,
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                      textStyle: TextStyle(color: Colors.white),
+                      padding: EdgeInsets.only(left: 8),
+                    ),
                     child: new Text('สร้าง QR code',
                         style:
                             new TextStyle(fontSize: 18.0, color: Colors.white)),

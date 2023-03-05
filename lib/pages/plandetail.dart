@@ -2,11 +2,10 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:currencies/currencies.dart';
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/models/plan_detail.dart';
-import 'package:ice_app_new/pages/plan.dart';
-import 'package:ice_app_new/providers/plan.dart';
+import 'package:ice_app_new_omnoi/models/plan_detail.dart';
+import 'package:ice_app_new_omnoi/pages/plan.dart';
+import 'package:ice_app_new_omnoi/providers/plan.dart';
 import 'package:intl/intl.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:provider/provider.dart';
@@ -118,7 +117,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
             _formData['cancel_reason'])
         .then(
       (_) {
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
             children: <Widget>[
               Icon(
@@ -180,13 +179,13 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                   title: Text('แจ้งเตือน'),
                   content: Text('ต้องการลบข้อมูลใช่หรือไม่'),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         Navigator.of(context).pop(true);
                       },
                       child: Text('ยืนยัน'),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         Navigator.of(context).pop(false);
                       },
@@ -203,7 +202,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                     .removePlanDetail(plans[index].id);
                 plans.removeAt(index);
               });
-              Scaffold.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Row(
                   children: <Widget>[
                     Icon(
@@ -289,13 +288,18 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                                     child: SizedBox(
                                       height: 55.0,
                                       width: targetWidth,
-                                      child: new RaisedButton(
-                                          elevation: 0.2,
-                                          shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      15.0)),
-                                          color: Colors.green[700],
+                                      child: new ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green[700],
+                                            elevation: 0.2,
+                                            shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        15.0)),
+                                            textStyle:
+                                                TextStyle(color: Colors.white),
+                                            padding: EdgeInsets.only(left: 8),
+                                          ),
                                           child: new Text('บันทึก',
                                               style: new TextStyle(
                                                   fontSize: 20.0,
@@ -323,13 +327,18 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                                     child: SizedBox(
                                       height: 55.0,
                                       width: targetWidth,
-                                      child: new RaisedButton(
-                                          elevation: 0.2,
-                                          shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      15.0)),
-                                          color: Colors.grey[400],
+                                      child: new ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.grey[400],
+                                            elevation: 0.2,
+                                            shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        15.0)),
+                                            textStyle:
+                                                TextStyle(color: Colors.white),
+                                            padding: EdgeInsets.only(left: 8),
+                                          ),
                                           child: new Text('ยกเลิก',
                                               style: new TextStyle(
                                                   fontSize: 20.0,
@@ -376,7 +385,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                     // ),
                     trailing: plans[index].status != '500'
                         ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
                                 "x${plans[index].qty}",
@@ -555,43 +564,43 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                     padding: EdgeInsets.all(0),
                     child: Column(
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                height: 40,
-                                color: Colors.green[700],
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Column(
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                    loadCustomerplan
-                                                        .customer_name,
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white))
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: <Widget>[
+                        //     Expanded(
+                        //       child: Container(
+                        //         height: 40,
+                        //         color: Colors.green[700],
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.center,
+                        //           children: <Widget>[
+                        //             Column(
+                        //               children: <Widget>[
+                        //                 Row(
+                        //                   children: <Widget>[
+                        //                     Column(
+                        //                       children: <Widget>[
+                        //                         SizedBox(
+                        //                           height: 10,
+                        //                         ),
+                        //                         Text(
+                        //                             loadCustomerplan
+                        //                                 .customer_name,
+                        //                             style: TextStyle(
+                        //                                 fontSize: 16,
+                        //                                 color: Colors.white))
+                        //                       ],
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         SizedBox(
                           height: 10,
                         ),

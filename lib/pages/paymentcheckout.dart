@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ice_app_new/models/enum_paytype.dart';
-import 'package:ice_app_new/models/paymentselected.dart';
-import 'package:ice_app_new/pages/main_test.dart';
-import 'package:ice_app_new/pages/payment.dart';
-import 'package:ice_app_new/pages/paymentsuccess.dart';
-import 'package:ice_app_new/providers/paymentreceive.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ice_app_new_omnoi/models/enum_paytype.dart';
+import 'package:ice_app_new_omnoi/models/paymentselected.dart';
+// import 'package:ice_app_new_omnoi/pages/main_test.dart';
+// import 'package:ice_app_new_omnoi/pages/payment.dart';
+import 'package:ice_app_new_omnoi/pages/paymentsuccess.dart';
+import 'package:ice_app_new_omnoi/providers/paymentreceive.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -22,6 +22,15 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
   final DateFormat dateformatter = DateFormat('dd-MM-yyyy');
   Paytype _paytype = Paytype.Cash;
   DateTime _date = DateTime.now();
+
+  @override
+  initState() {
+    setState(() {
+      _formData['pay_date'] = dateformatter.format(_date).toString();
+    });
+
+    super.initState();
+  }
 
   Widget _buildList(List<Paymentselected> paymentlist) {
     Widget orderCards;
@@ -57,13 +66,13 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
                   //     title: Text('แจ้งเตือน'),
                   //     content: Text('ต้องการลบข้อมูลใช่หรือไม่'),
                   //     actions: <Widget>[
-                  //       FlatButton(
+                  //       TextButton(
                   //         onPressed: () {
                   //           Navigator.of(context).pop(true);
                   //         },
                   //         child: Text('ยืนยัน'),
                   //       ),
-                  //       FlatButton(
+                  //       TextButton(
                   //         onPressed: () {
                   //           Navigator.of(context).pop(false);
                   //         },
@@ -86,7 +95,7 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
                     });
                     // paymentlist.removeAt(index);
                   });
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Row(
                       children: <Widget>[
                         Icon(
@@ -221,7 +230,28 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
     // }
 
     // _formKey.currentState.save();
-
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            height: 200,
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                new CircularProgressIndicator(),
+                SizedBox(
+                  width: 20,
+                ),
+                new Text("กำลังบันทึกข้อมูล"),
+              ],
+            ),
+          ),
+        );
+      },
+    );
     bool res = await Provider.of<PaymentreceiveData>(context, listen: false)
         .addPayment2(_formData['pay_type'], _formData['pay_date'], listitems);
 
@@ -233,7 +263,7 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
         ),
       );
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Row(
           children: <Widget>[
             Icon(
@@ -263,7 +293,7 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
     //         builder: (_) => PaymentsuccessPage(),
     //       ),
     //     );
-    //     // Scaffold.of(context).showSnackBar(SnackBar(
+    //     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     //     //   content: Row(
     //     //     children: <Widget>[
     //     //       Icon(
@@ -298,7 +328,7 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
   //         .addTransfer(car_id, transferdata);
   //     Navigator.of(context).pop();
   //     if (res == true) {
-  //       Scaffold.of(context).showSnackBar(
+  //       ScaffoldMessenger.of(context).showSnackBar(
   //         SnackBar(
   //           content: Row(
   //             children: <Widget>[
@@ -455,7 +485,7 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
                   ),
                   Expanded(
                     child: Column(
-                      children: [
+                      children: <Widget>[
                         ListTile(
                           title: Text("โอนธนาคาร"),
                           leading: Radio<Paytype>(
@@ -525,14 +555,14 @@ class _PaymentcheckoutPageState extends State<PaymentcheckoutPage> {
                               content:
                                   Text('ต้องการบันทึกการชำระเงินใช่หรือไม่'),
                               actions: <Widget>[
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     //Navigator.of(context).pop(true);
                                     _submitForm(paymentselected);
                                   },
                                   child: Text('ยืนยัน'),
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop(false);
                                   },

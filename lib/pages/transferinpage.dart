@@ -1,22 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/pages/createorder.dart';
-import 'package:ice_app_new/pages/createorder_new.dart';
-import 'package:ice_app_new/pages/main_test.dart';
-import 'package:ice_app_new/providers/transferin.dart';
-import 'package:ice_app_new/widgets/order/order_item.dart';
-import 'package:ice_app_new/widgets/order/order_item_new.dart';
-import 'package:ice_app_new/widgets/transferin/findtransferin_item.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:ice_app_new_omnoi/providers/transferin.dart';
+import 'package:ice_app_new_omnoi/widgets/transferin/findtransferin_item.dart';
 import 'package:connectivity/connectivity.dart';
-
-import 'package:ice_app_new/helpers/activity_connection.dart';
 import 'package:provider/provider.dart';
-
-import 'package:ice_app_new/providers/order.dart';
-//import 'package:ice_app_new/widgets/error/err_api.dart';
+//import 'package:ice_app_new_omnoi/widgets/error/err_api.dart';
 
 class TransferinNewPage extends StatefulWidget {
   static const routeName = '/transferinpage';
@@ -86,7 +75,7 @@ class _TransferinPageState extends State<TransferinNewPage> {
             title: Text(title),
             content: Text(text),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

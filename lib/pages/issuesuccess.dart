@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/pages/journalissue.dart';
-import 'package:ice_app_new/pages/main_test.dart';
-import 'package:ice_app_new/pages/order.dart';
+// import 'package:ice_app_new_omnoi/pages/journalissue.dart';
+import 'package:ice_app_new_omnoi/pages/main_test.dart';
+// import 'package:ice_app_new_omnoi/pages/order.dart';
 
 class IssuesuccessPage extends StatefulWidget {
   @override
@@ -40,8 +40,9 @@ class _IssuesuccessPageState extends State<IssuesuccessPage> {
                         // ignore: deprecated_member_use
                         child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: FlatButton(
-                        color: Colors.blue[500],
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue[500]),
                         child: Text(
                           'กลับหน้าหลัก',
                           style: TextStyle(fontSize: 18, color: Colors.white),

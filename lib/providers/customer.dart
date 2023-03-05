@@ -1,35 +1,40 @@
 import 'dart:convert';
 import 'dart:io';
 import "package:async/async.dart";
-import 'package:ice_app_new/models/addchecklist.dart';
-import 'package:ice_app_new/models/checklist.dart';
+import 'package:ice_app_new_omnoi/models/addchecklist.dart';
+import 'package:ice_app_new_omnoi/models/checklist.dart';
+import 'package:ice_app_new_omnoi/models/customer_boot.dart';
 
 import 'package:path/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:ice_app_new/models/customer_asset.dart';
+import 'package:ice_app_new_omnoi/models/customer_asset.dart';
 
-import 'package:ice_app_new/models/customers.dart';
+import 'package:ice_app_new_omnoi/models/customers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomerData with ChangeNotifier {
   final String url_to_customer_list =
       //  "http://192.168.1.120/icesystem/frontend/web/api/customer/list";
-      "http://103.253.73.108/icesystem/frontend/web/api/customer/list";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/list";
+  //"http://103.253.73.108/icesystem/frontend/web/api/customer/list";
+  final String url_to_customer_boot_list =
+      //  "http://192.168.1.120/icesystem/frontend/web/api/customer/list";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/bootlist";
   //"http://103.253.73.108/icesystem/frontend/web/api/customer/list";
   final String url_to_customer_detail =
       // "http://203.203.1.224/icesystem/frontend/web/api/product/detail";
-      "http://103.253.73.108/icesystem/frontend/web/api/customer/detail";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/detail";
 
   final String url_to_customer_asset =
       // "http://203.203.1.224/icesystem/frontend/web/api/product/detail";
-      "http://103.253.73.108/icesystem/frontend/web/api/customer/assetlist";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/assetlist";
   final String url_to_asset_checklist_save =
       // "http://203.203.1.224/icesystem/frontend/web/api/product/detail";
-      "http://103.253.73.108/icesystem/frontend/web/api/customer/assetchecklist";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/assetchecklist";
   final String url_to_asset_checklist =
       // "http://203.203.1.224/icesystem/frontend/web/api/product/detail";
-      "http://103.253.73.108/icesystem/frontend/web/api/customer/checklist";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/checklist";
 
   List<Customers> _customer;
   List<CustomerAsset> _customer_asset;
@@ -37,6 +42,10 @@ class CustomerData with ChangeNotifier {
   List<Customers> get listcustomer => _customer;
   List<CustomerAsset> get listcustomerasset => _customer_asset;
   List<Checklist> get listassetchecklist => _assetchecklist;
+
+  List<Customerboot> _customer_boot;
+  List<Customerboot> get listcustomer_boot => _customer_boot;
+
   bool _isLoading = false;
   int _id = 0;
 
@@ -49,6 +58,11 @@ class CustomerData with ChangeNotifier {
 
   set listcustomer(List<Customers> val) {
     _customer = val;
+    notifyListeners();
+  }
+
+  set listcustomerboot(List<Customerboot> val) {
+    _customer_boot = val;
     notifyListeners();
   }
 
@@ -88,7 +102,7 @@ class CustomerData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_customer_list),
+        Uri.parse(url_to_customer_list),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );
@@ -135,6 +149,13 @@ class CustomerData with ChangeNotifier {
         .toList();
   }
 
+  Future<List> findCustomerboot(String query) async {
+    await Future.delayed(Duration(microseconds: 500));
+    return listcustomer_boot
+        .where((item) => item.name.toLowerCase().contains(query))
+        .toList();
+  }
+
   Future<dynamic> fetCustomerAsset(String customer_id) async {
     String _company_id = "";
     String _branch_id = "";
@@ -156,7 +177,7 @@ class CustomerData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_customer_asset),
+        Uri.parse(url_to_customer_asset),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );
@@ -195,6 +216,64 @@ class CustomerData with ChangeNotifier {
         _isLoading = false;
         notifyListeners();
         return listcustomerasset;
+      }
+    } catch (_) {}
+  }
+
+  Future<dynamic> fetCustomerboot() async {
+    String _company_id = "";
+    String _branch_id = "";
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('user_id') != null) {
+      _company_id = prefs.getString('company_id');
+      _branch_id = prefs.getString('branch_id');
+    }
+
+    final Map<String, dynamic> filterData = {
+      'company_id': _company_id,
+      'branch_id': _branch_id
+    };
+    // _isLoading = true;
+    notifyListeners();
+    try {
+      http.Response response;
+      response = await http.post(
+        Uri.parse(url_to_customer_boot_list),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(filterData),
+      );
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> res = json.decode(response.body);
+        List<Customerboot> data = [];
+        print('data customer boot length is ${res["data"].length}');
+        //    print('data server is ${res["data"]}');
+
+        if (res == null) {
+          _isLoading = false;
+          notifyListeners();
+          return;
+        }
+
+        for (var i = 0; i < res['data'].length; i++) {
+          // var product = Customers.fromJson(res[i]);
+          //print(res['data'][i]['code']);
+          // data.add(product);
+          final Customerboot customerresult = Customerboot(
+            id: res['data'][i]['id'].toString(),
+            code: res['data'][i]['code'].toString(),
+            name: res['data'][i]['name'].toString(),
+          );
+
+          //  print('data from server is ${customerresult}');
+          data.add(customerresult);
+        }
+
+        listcustomerboot = data;
+        _isLoading = false;
+        notifyListeners();
+        return listcustomer_boot;
       }
     } catch (_) {}
   }
@@ -258,7 +337,7 @@ class CustomerData with ChangeNotifier {
 
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_asset_checklist_save),
+        Uri.parse(url_to_asset_checklist_save),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );
@@ -303,7 +382,7 @@ class CustomerData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_asset_checklist),
+        Uri.parse(url_to_asset_checklist),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/providers/product.dart';
+import 'package:ice_app_new_omnoi/providers/product.dart';
 
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
-import 'package:ice_app_new/providers/customer.dart';
+import 'package:ice_app_new_omnoi/providers/customer.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:ice_app_new/providers/issuedata.dart';
+import 'package:ice_app_new_omnoi/providers/issuedata.dart';
 
-import 'package:ice_app_new/models/customers.dart';
-import 'package:ice_app_new/widgets/sale/sale_product_item.dart';
-import 'package:ice_app_new/providers/customer.dart';
-import 'package:ice_app_new/providers/order.dart';
+// import 'package:ice_app_new_omnoi/models/customers.dart';
+// import 'package:ice_app_new_omnoi/widgets/sale/sale_product_item.dart';
+// import 'package:ice_app_new_omnoi/providers/customer.dart';
+import 'package:ice_app_new_omnoi/providers/order.dart';
 
-import 'package:ice_app_new/models/addorder.dart';
-import 'package:ice_app_new/models/products.dart';
-import 'package:ice_app_new/models/issueitems.dart';
+import 'package:ice_app_new_omnoi/models/addorder.dart';
+import 'package:ice_app_new_omnoi/models/products.dart';
+//import 'package:ice_app_new_omnoi/models/issueitems.dart';
 
 class CreateorderPage extends StatefulWidget {
   static const routeName = '/createorder';
@@ -91,7 +91,7 @@ class _CreateorderPageState extends State<CreateorderPage> {
             title: Text(title),
             content: Text(text),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -451,7 +451,7 @@ class Items extends StatelessWidget {
                                       content:
                                           Text('จำนวนขายมากกว่าจำนวนคงเหลือ'),
                                       actions: <Widget>[
-                                        FlatButton(
+                                        TextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop(false);
                                             },
@@ -481,12 +481,15 @@ class Items extends StatelessWidget {
                       child: SizedBox(
                         height: 55.0,
                         width: targetWidth,
-                        child: new RaisedButton(
-                            elevation: 5,
-                            splashColor: Colors.grey,
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(15.0)),
-                            color: Colors.green[700],
+                        child: new ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green[700],
+                              elevation: 5,
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(15.0)),
+                              textStyle: TextStyle(color: Colors.white),
+                            ),
                             child: new Text('เงินสด',
                                 style: new TextStyle(
                                     fontSize: 20.0, color: Colors.white)),
@@ -501,12 +504,15 @@ class Items extends StatelessWidget {
                       child: SizedBox(
                         height: 55.0,
                         width: targetWidth,
-                        child: new RaisedButton(
-                            elevation: 5,
-                            splashColor: Colors.grey,
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(15.0)),
-                            color: Colors.blue[700],
+                        child: new ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue[700],
+                              elevation: 5,
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(15.0)),
+                              textStyle: TextStyle(color: Colors.white),
+                            ),
                             child: new Text('เงินเชื่อ',
                                 style: new TextStyle(
                                     fontSize: 20.0, color: Colors.white)),
@@ -521,12 +527,15 @@ class Items extends StatelessWidget {
                       child: SizedBox(
                         height: 55.0,
                         width: targetWidth,
-                        child: new RaisedButton(
-                            elevation: 5,
-                            splashColor: Colors.grey,
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(15.0)),
-                            color: Colors.grey,
+                        child: new ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey,
+                              elevation: 5,
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(15.0)),
+                              textStyle: TextStyle(color: Colors.white),
+                            ),
                             child: new Text('ฟรี',
                                 style: new TextStyle(
                                     fontSize: 20.0, color: Colors.white)),
@@ -648,7 +657,7 @@ class Items extends StatelessWidget {
               ),
               content: Text('กรุณาป้อนจำนวนที่ต้องการขาย'),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -667,7 +676,7 @@ class Items extends StatelessWidget {
         payment_type_id,
       );
       if (issave == true) {
-        Scaffold.of(context).showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: <Widget>[
@@ -688,7 +697,7 @@ class Items extends StatelessWidget {
           ),
         );
       } else {
-        Scaffold.of(context).showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: <Widget>[
@@ -727,7 +736,7 @@ class Items extends StatelessWidget {
                 //     .avl_qty;
                 String _avl = _onhand;
                 if (selectedValue == null || selectedValue == '') {
-                  Scaffold.of(context).showSnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Row(
                         children: <Widget>[

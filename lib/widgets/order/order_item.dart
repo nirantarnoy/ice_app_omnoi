@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ice_app_new/providers/order.dart';
+import 'package:ice_app_new_omnoi/providers/order.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/orders.dart';
@@ -82,7 +82,7 @@ class OrderItem extends StatelessWidget {
                         onPressed: () => Navigator.of(context)
                             .pushNamed(CreateorderPage.routeName),
                         child: Icon(Icons.add, color: Colors.white)
-                        //   FlatButton(onPressed: () {}, child: Text("เพิ่มรายการขาย")),
+                        //   TextButton(onPressed: () {}, child: Text("เพิ่มรายการขาย")),
                         ),
                   ]),
             ),
@@ -165,13 +165,13 @@ class _ItemsState extends State<Items> {
             title: Text('แจ้งเตือน'),
             content: Text('ต้องการลบข้อมูลใช่หรือไม่'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
                 child: Text('ยืนยัน'),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
@@ -188,7 +188,7 @@ class _ItemsState extends State<Items> {
               .removeOrderCustomer(widget._id, widget._customer_id);
           widget._orders.removeAt(widget._index);
         });
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
             children: <Widget>[
               Icon(

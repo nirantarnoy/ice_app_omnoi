@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/pages/main_test.dart';
-import 'package:ice_app_new/pages/order.dart';
+import 'package:ice_app_new_omnoi/pages/createorder_new.dart';
+import 'package:ice_app_new_omnoi/pages/main_test.dart';
 
 class OrdersuccessPage extends StatefulWidget {
   @override
@@ -39,8 +39,9 @@ class _OrdersuccessPageState extends State<OrdersuccessPage> {
                         // ignore: deprecated_member_use
                         child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: FlatButton(
-                        color: Colors.green[600],
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.green[600]),
                         child: Text(
                           'ขายสินค้าต่อ',
                           style: TextStyle(fontSize: 18, color: Colors.white),
@@ -49,7 +50,7 @@ class _OrdersuccessPageState extends State<OrdersuccessPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => OrderPage(),
+                              builder: (_) => CreateorderNewPage(),
                             ),
                           );
                           // Navigator.pushAndRemoveUntil(
@@ -72,8 +73,9 @@ class _OrdersuccessPageState extends State<OrdersuccessPage> {
                         // ignore: deprecated_member_use
                         child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: FlatButton(
-                        color: Colors.blue[500],
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue[500]),
                         child: Text(
                           'กลับหน้าหลัก',
                           style: TextStyle(fontSize: 18, color: Colors.white),

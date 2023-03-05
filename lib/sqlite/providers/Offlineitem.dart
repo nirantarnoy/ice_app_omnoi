@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:ice_app_new/sqlite/providers/Offlineitem.dart';
-import 'package:ice_app_new/models/offlineitem.dart';
+//import 'package:ice_app_new_omnoi/sqlite/providers/Offlineitem.dart';
+import 'package:ice_app_new_omnoi/models/offlineitem.dart';
 
 import '../db_helper.dart';
 

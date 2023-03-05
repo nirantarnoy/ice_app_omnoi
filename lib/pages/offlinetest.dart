@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/models/offlineitem.dart';
-import 'package:ice_app_new/sqlite/db_helper.dart';
-import 'package:ice_app_new/sqlite/providers/Offlineitem.dart';
+import 'package:ice_app_new_omnoi/models/offlineitem.dart';
+import 'package:ice_app_new_omnoi/sqlite/db_helper.dart';
+import 'package:ice_app_new_omnoi/sqlite/providers/Offlineitem.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -118,7 +118,7 @@ class _OfflinePageState extends State<OfflinePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            RaisedButton(
+            ElevatedButton(
                 onPressed: () async {
                   int i = await DatabaseHelper.instance.insert(
                     {DatabaseHelper.columnName: 'niranxxx'},
@@ -127,7 +127,7 @@ class _OfflinePageState extends State<OfflinePage> {
                   print('the inserted id is');
                 },
                 child: Text('insert')),
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   Provider.of<OfflineitemData>(context, listen: false)
                       .showItemlist();
@@ -138,7 +138,7 @@ class _OfflinePageState extends State<OfflinePage> {
                   });
                 },
                 child: Text('query')),
-            FlatButton(
+            TextButton(
                 onPressed: () async {
                   int updatedId = await DatabaseHelper.instance.update(
                     {
@@ -149,7 +149,7 @@ class _OfflinePageState extends State<OfflinePage> {
                   print(updatedId);
                 },
                 child: Text('update')),
-            FlatButton(
+            TextButton(
               onPressed: () async {
                 int updatedId = await DatabaseHelper.instance.delete(2);
                 print(updatedId);

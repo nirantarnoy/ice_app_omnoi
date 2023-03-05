@@ -1,14 +1,15 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:ice_app_new/models/orders_new.dart';
-import 'package:ice_app_new/providers/customer.dart';
+import 'package:ice_app_new_omnoi/models/orders_new.dart';
+import 'package:ice_app_new_omnoi/providers/customer.dart';
 import 'package:intl/intl.dart';
-import 'package:ice_app_new/providers/order.dart';
+import 'package:ice_app_new_omnoi/providers/order.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/orders.dart';
 import '../../pages/orderdetail.dart';
-import '../../pages/createorder.dart';
+//import '../../pages/createorder.dart';
 
 class OrderItemNew extends StatefulWidget {
   @override
@@ -21,6 +22,12 @@ class _OrderItemNewState extends State<OrderItemNew> {
   String selectedValue;
   var _isInit = true;
   var _isLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   void didChangeDependencies() {
     if (_isInit) {
@@ -42,6 +49,9 @@ class _OrderItemNewState extends State<OrderItemNew> {
       if (orders.length > 0) {
         // print("has list");
         orderCards = new ListView.builder(
+            // primary: false,
+            //  shrinkWrap: true,
+            //  physics: NeverScrollableScrollPhysics(),
             itemCount: orders.length,
             itemBuilder: (BuildContext context, int index) => Items(
                   orders[index].id,
@@ -174,9 +184,10 @@ class _OrderItemNewState extends State<OrderItemNew> {
                     SizedBox(
                       width: 5,
                     ),
-                    FlatButton(
-                        color: Colors.grey[100],
-                        height: 30,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.grey[100],
+                        ),
                         onPressed: () {
                           selectedValue = '';
                           orders.searchBycustomer = selectedValue;
@@ -198,7 +209,7 @@ class _OrderItemNewState extends State<OrderItemNew> {
                     //     onPressed: () => Navigator.of(context)
                     //         .pushNamed(CreateorderPage.routeName),
                     //     child: Icon(Icons.add, color: Colors.white)
-                    //     //   FlatButton(onPressed: () {}, child: Text("เพิ่มรายการขาย")),
+                    //     //   TextButton(onPressed: () {}, child: Text("เพิ่มรายการขาย")),
                     //     ),
                   ]),
             ),
@@ -216,7 +227,7 @@ class _OrderItemNewState extends State<OrderItemNew> {
                 ),
         ),
         SizedBox(
-          height: 10,
+          height: 0,
         ),
         Container(
           child: Row(
@@ -352,7 +363,7 @@ class _OrderItemNewState extends State<OrderItemNew> {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -439,13 +450,13 @@ class _ItemsState extends State<Items> {
             title: Text('แจ้งเตือน'),
             content: Text('ต้องการลบข้อมูลใช่หรือไม่'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
                 child: Text('ยืนยัน'),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
@@ -462,7 +473,7 @@ class _ItemsState extends State<Items> {
               .removeOrderDetail(widget._order_line_id);
           widget._orders.removeAt(widget._index);
         });
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
             children: <Widget>[
               Icon(

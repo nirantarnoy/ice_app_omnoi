@@ -2,20 +2,20 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:ice_app_new/models/products.dart';
+import 'package:ice_app_new_omnoi/models/products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductData with ChangeNotifier {
   final String url_to_product_list =
       //  "http://192.168.1.120/icesystem/frontend/web/api/product/list";
-      "http://103.253.73.108/icesystem/frontend/web/api/product/list";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/product/list";
   final String url_to_product_issue_list =
       //  "http://192.168.1.120/icesystem/frontend/web/api/product/list";
-      "http://103.253.73.108/icesystem/frontend/web/api/product/issuelist2";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/product/issuelist2";
   // "http://103.253.73.108/icesystem/frontend/web/api/product/list";
   final String url_to_product_detail =
       //   "http://203.203.1.224/icesystem/frontend/web/api/product/detail";
-      "http://103.253.73.108/icesystem/frontend/web/api/product/detail";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/product/detail";
 
   List<Products> _product;
   List<Products> get listproduct => _product;
@@ -58,7 +58,7 @@ class ProductData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_product_issue_list),
+        Uri.parse(url_to_product_issue_list),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );
@@ -121,7 +121,7 @@ class ProductData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_product_list),
+        Uri.parse(url_to_product_list),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );
@@ -179,7 +179,7 @@ class ProductData with ChangeNotifier {
   //   };
   //   try {
   //     http.Response response;
-  //     response = await http.post(Uri.encodeFull(url_to_product),
+  //     response = await http.post(Uri.parse(url_to_product),
   //         headers: {'Content-Type': 'application/json'},
   //         body: json.encode(orderData));
 
@@ -190,7 +190,7 @@ class ProductData with ChangeNotifier {
   // Future<Orders> getDetails() async {
   //   try {
   //     http.Response response;
-  //     response = await http.get(Uri.encodeFull(url_to_product),
+  //     response = await http.get(Uri.parse(url_to_product),
   //         headers: {'Content-Type': 'application/json'});
 
   //     if (response.statusCode == 200) {

@@ -2,17 +2,17 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:ice_app_new/models/DeliveryRoute.dart';
+import 'package:ice_app_new_omnoi/models/DeliveryRoute.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeliveryRouteData with ChangeNotifier {
   final String url_to_DeliveryRoute_list =
       //  "http://192.168.1.120/icesystem/frontend/web/api/customer/list";
-      "http://103.253.73.108/icesystem/frontend/web/api/customer/list";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/list";
   //"http://103.253.73.108/icesystem/frontend/web/api/customer/list";
   final String url_to_DeliveryRoute_detail =
       // "http://203.203.1.224/icesystem/frontend/web/api/product/detail";
-      "http://103.253.73.108/icesystem/frontend/web/api/customer/detail";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/detail";
 
   List<DeliveryRoute> _DeliveryRoute;
   List<DeliveryRoute> get listDeliveryRoute => _DeliveryRoute;
@@ -48,7 +48,7 @@ class DeliveryRouteData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_DeliveryRoute_list),
+        Uri.parse(url_to_DeliveryRoute_list),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );

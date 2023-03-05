@@ -1,27 +1,27 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:ice_app_new/models/Addplan.dart';
+import 'package:ice_app_new_omnoi/models/Addplan.dart';
 
-import 'package:ice_app_new/models/plan.dart';
-import 'package:ice_app_new/models/plan_detail.dart';
-import 'package:ice_app_new/models/user.dart';
+import 'package:ice_app_new_omnoi/models/plan.dart';
+import 'package:ice_app_new_omnoi/models/plan_detail.dart';
+import 'package:ice_app_new_omnoi/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlanData with ChangeNotifier {
   final String server_api = "";
   final String url_to_plan =
       //   "http://192.168.1.120/icesystem/frontend/web/api/order/list";
-      "http://103.253.73.108/icesystem/frontend/web/api/plan/listplan";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/plan/listplan";
   final String url_to_add_plan =
-      "http://103.253.73.108/icesystem/frontend/web/api/plan/addplan";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/plan/addplan";
   final String url_to_delete_plan =
-      "http://103.253.73.108/icesystem/frontend/web/api/plan/deleteplan";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/plan/deleteplan";
   //  "http://192.168.1.120/icesystem/frontend/web/api/order/deleteorderline";
   final String url_to_plan_by_customer =
-      "http://103.253.73.108/icesystem/frontend/web/api/plan/listplanbycustomer";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/plan/listplanbycustomer";
   final String url_to_delete_plan_line =
-      "http://103.253.73.108/icesystem/frontend/web/api/plan/deleteplanline";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/plan/deleteplanline";
 
   ///// for common
   bool _isLoading = false;
@@ -132,7 +132,7 @@ class PlanData with ChangeNotifier {
     notifyListeners();
     try {
       http.Response response;
-      response = await http.post(Uri.encodeFull(url_to_plan),
+      response = await http.post(Uri.parse(url_to_plan),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(filterData));
 
@@ -152,7 +152,7 @@ class PlanData with ChangeNotifier {
           idPlan = int.parse(res['data'][i]['id'].toString());
           final Plan orderresult = Plan(
             id: res['data'][i]['id'].toString(),
-            code: res['data'][i]['trans_no'].toString(),
+            code: res['data'][i]['tran_no'].toString(),
             route_id: res['data'][i]['route_id'].toString(),
             route_name: res['data'][i]['route_name'].toString(),
             trans_date: res['data'][i]['trans_date'].toString(),
@@ -219,7 +219,7 @@ class PlanData with ChangeNotifier {
     print('data will save order new is ${orderData}');
     try {
       http.Response response;
-      response = await http.post(Uri.encodeFull(url_to_add_plan),
+      response = await http.post(Uri.parse(url_to_add_plan),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(orderData));
 
@@ -246,7 +246,7 @@ class PlanData with ChangeNotifier {
     print('plan customer data ${filterData}');
     try {
       http.Response response;
-      response = await http.post(Uri.encodeFull(url_to_plan_by_customer),
+      response = await http.post(Uri.parse(url_to_plan_by_customer),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(filterData));
 
@@ -305,7 +305,7 @@ class PlanData with ChangeNotifier {
     // print('data will save close order is ${orderData}');
     // try {
     //   http.Response response;
-    //   response = await http.post(Uri.encodeFull(url_to_cancel_plan),
+    //   response = await http.post(Uri.parse(url_to_cancel_plan),
     //       headers: {'Content-Type': 'application/json'},
     //       body: json.encode(orderData));
 
@@ -333,7 +333,7 @@ class PlanData with ChangeNotifier {
 
     try {
       http.Response response;
-      response = await http.post(Uri.encodeFull(url_to_delete_plan),
+      response = await http.post(Uri.parse(url_to_delete_plan),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(delete_id));
 
@@ -353,7 +353,7 @@ class PlanData with ChangeNotifier {
 
     try {
       http.Response response;
-      response = await http.post(Uri.encodeFull(url_to_delete_plan_line),
+      response = await http.post(Uri.parse(url_to_delete_plan_line),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(delete_id));
 

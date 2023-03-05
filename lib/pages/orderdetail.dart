@@ -2,19 +2,19 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:currencies/currencies.dart';
+//import 'package:currencies/currencies.dart';
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/pages/order.dart';
+import 'package:ice_app_new_omnoi/pages/order.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:ice_app_new/models/order_detail.dart';
+import 'package:ice_app_new_omnoi/models/order_detail.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:ice_app_new/providers/order.dart';
-import 'package:ice_app_new/models/orders.dart';
+import 'package:ice_app_new_omnoi/providers/order.dart';
+//import 'package:ice_app_new_omnoi/models/orders.dart';
 
 enum SingingCharacter { reason1, reason2, reason3 }
 
@@ -35,6 +35,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       ScreenshotController(); // screenshot capture
   File screenshot;
   SingingCharacter _character = SingingCharacter.reason1;
+  double order_discount = 0;
   final Map<String, dynamic> _formData = {
     'cancel_reason': '',
   };
@@ -217,7 +218,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             product_code, _formData['cancel_reason'])
         .then(
       (_) {
-        Scaffold.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
             children: <Widget>[
               Icon(
@@ -258,6 +259,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
       orderCards = new ListView.builder(
         itemCount: orders.length,
         itemBuilder: (BuildContext context, int index) {
+          // setState(() {
+          order_discount = double.parse(orders[0].discount_amount);
+          // });
           return Dismissible(
             key: ValueKey(orders[index]),
             background: Container(
@@ -279,13 +283,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   title: Text('แจ้งเตือน'),
                   content: Text('ต้องการลบข้อมูลใช่หรือไม่'),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         Navigator.of(context).pop(true);
                       },
                       child: Text('ยืนยัน'),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         Navigator.of(context).pop(false);
                       },
@@ -302,7 +306,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                     .removeOrderDetail(orders[index].line_id);
                 orders.removeAt(index);
               });
-              Scaffold.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Row(
                   children: <Widget>[
                     Icon(
@@ -388,13 +392,17 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                     child: SizedBox(
                                       height: 55.0,
                                       width: targetWidth,
-                                      child: new RaisedButton(
-                                          elevation: 0.2,
-                                          shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      15.0)),
-                                          color: Colors.green[700],
+                                      child: new ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green[700],
+                                            elevation: 0.2,
+                                            shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        15.0)),
+                                            textStyle:
+                                                TextStyle(color: Colors.white),
+                                          ),
                                           child: new Text('บันทึก',
                                               style: new TextStyle(
                                                   fontSize: 20.0,
@@ -423,13 +431,17 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                                     child: SizedBox(
                                       height: 55.0,
                                       width: targetWidth,
-                                      child: new RaisedButton(
-                                          elevation: 0.2,
-                                          shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      15.0)),
-                                          color: Colors.grey[400],
+                                      child: new ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.grey[400],
+                                            elevation: 0.2,
+                                            shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        15.0)),
+                                            textStyle:
+                                                TextStyle(color: Colors.white),
+                                          ),
                                           child: new Text('ยกเลิก',
                                               style: new TextStyle(
                                                   fontSize: 20.0,
@@ -815,11 +827,46 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                           child: Consumer<OrderData>(
                             builder: (context, orderdetails, _) =>
                                 _buildordersList(
-                                    orderdetails.listorder_detail,
-                                    loadCustomerorder.customer_id,
-                                    loadCustomerorder.customer_code,
-                                    loadCustomerorder.order_date,
-                                    loadCustomerorder.order_no),
+                              orderdetails.listorder_detail,
+                              loadCustomerorder.customer_id,
+                              loadCustomerorder.customer_code,
+                              loadCustomerorder.order_date,
+                              loadCustomerorder.order_no,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'ส่วนลด',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      '${order_discount}',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Container(
@@ -828,8 +875,10 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                               Expanded(
                                 child: Consumer<OrderData>(
                                   builder: (context, orderdetails, _) =>
-                                      RaisedButton(
-                                          color: Colors.blue[500],
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.blue[500]),
                                           onPressed: () {
                                             _testPrint(
                                                 orderdetails.listorder_detail,

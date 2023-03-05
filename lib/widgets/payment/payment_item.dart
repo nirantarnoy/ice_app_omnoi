@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ice_app_new/providers/customer.dart';
-import 'package:ice_app_new/providers/paymentreceive.dart';
+import 'package:ice_app_new_omnoi/providers/customer.dart';
+import 'package:ice_app_new_omnoi/providers/paymentreceive.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -382,12 +382,16 @@ class _ItemsState extends State<Items> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            RaisedButton(
-                              padding: EdgeInsets.only(right: 8),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              color: Colors.blue[500],
-                              textColor: Colors.white,
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue[500],
+                                elevation: 5,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(15.0)),
+                                textStyle: TextStyle(color: Colors.white),
+                                padding: EdgeInsets.only(right: 8),
+                              ),
                               onPressed: () {},
                               child: Text("บันทีก"),
                             ),

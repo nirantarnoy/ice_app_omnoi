@@ -4,20 +4,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:ice_app_new/models/user.dart';
+import 'package:ice_app_new_omnoi/models/user.dart';
 
 class UserData with ChangeNotifier {
   final String url_to_user_list =
-      //    "http://192.168.1.120/icesystem/frontend/web/api/customer/list";
-      // "http://103.253.73.108/icesystem/frontend/web/api/customer/list";
-      //  "http://103.253.73.108/icesystem/frontend/web/api/customer/list";
-      "http://103.253.73.108/icesystem/frontend/web/api/customer/list";
-  // "http://103.253.73.108/icesystem/frontend/web/api/customer/list";
+      //    "http://192.168.1.120/icesystemomnoi/frontend/web/api/customer/list";
+      // "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/list";
+      //  "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/list";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/list";
+  // "http://103.253.73.108/icesystemomnoi/frontend/web/api/customer/list";
   final String url_to_user_login =
-      //  "http://192.168.1.120/icesystem/frontend/web/api/authen/login";
-      // "http://103.253.73.108/icesystem/frontend/web/api/authen/login";
-      // "http://103.253.73.108/icesystem/frontend/web/api/authen/login";
-      "http://103.253.73.108/icesystem/frontend/web/api/authen/login";
+      //  "http://192.168.1.120/icesystemomnoi/frontend/web/api/authen/login";
+      // "http://103.253.73.108/icesystemomnoi/frontend/web/api/authen/login";
+      // "http://103.253.73.108/icesystemomnoi/frontend/web/api/authen/login";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/authen/login";
+  final String url_to_user_login_qrcode =
+      //  "http://192.168.1.120/icesystemomnoi/frontend/web/api/authen/login";
+      // "http://103.253.73.108/icesystemomnoi/frontend/web/api/authen/login";
+      // "http://103.253.73.108/icesystemomnoi/frontend/web/api/authen/login";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/authen/loginqrcode";
 
   User _authenticatedUser;
   Timer _authTimer;
@@ -28,11 +33,20 @@ class UserData with ChangeNotifier {
   List<User> get listuserlogin => _userlogin;
   bool _isLoading = false;
   bool _isauthenuser = false;
+
   int _id = 0;
   int get idUser => _id;
 
+  String _route_type = "1";
+  String get routeType => _route_type;
+
   set idUser(int val) {
     _id = val;
+    notifyListeners();
+  }
+
+  set routeType(String val) {
+    _route_type = val;
     notifyListeners();
   }
 
@@ -59,10 +73,10 @@ class UserData with ChangeNotifier {
       'username': username,
       'password': password
     };
-    //   print(username);
+    print(loginData);
     try {
       http.Response response;
-      response = await http.post(Uri.encodeFull(url_to_user_login),
+      response = await http.post(Uri.parse(url_to_user_login),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(loginData));
 
@@ -90,6 +104,7 @@ class UserData with ChangeNotifier {
           emp_car_name: res['data'][0]['emp_car_name'].toString(),
           company_id: res['data'][0]['company_id'].toString(),
           branch_id: res['data'][0]['branch_id'].toString(),
+          route_type: res['data'][0]['route_type'].toString(),
         );
 
         data.add(userresult);
@@ -111,8 +126,90 @@ class UserData with ChangeNotifier {
             'emp_car_name', res['data'][0]['emp_car_name'].toString());
         prefs.setString('company_id', res['data'][0]['company_id'].toString());
         prefs.setString('branch_id', res['data'][0]['branch_id'].toString());
+        //  prefs.setString('route_type', res['data'][0]['route_type'].toString());
 
         prefs.setString('expiryTime', expiryTime.toIso8601String());
+        prefs.setString('working_mode', 'online');
+
+        // set route type
+        routeType = res['data'][0]['route_type'].toString();
+
+        listuserlogin = data;
+        _isauthenuser = true;
+        _isLoading = false;
+        return listuserlogin;
+      } else {
+        print('server not status 200');
+      }
+    } catch (_) {
+      _isauthenuser = false;
+    }
+  }
+
+  Future<dynamic> loginwithqr(String car, String driver, String memeber) async {
+    final Map<String, dynamic> loginData = {
+      'car': car,
+      'driver': driver,
+      'password': '',
+      'member': memeber
+    };
+    print(loginData);
+    try {
+      http.Response response;
+      response = await http.post(Uri.parse(url_to_user_login_qrcode),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(loginData));
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> res = json.decode(response.body);
+        List<User> data = [];
+        print('user login is ${res["data"].length}');
+        print('data user is ${res["data"]}');
+
+        if (res == null) {
+          _isLoading = false;
+          notifyListeners();
+          return false;
+        }
+
+        final User userresult = User(
+          id: res['data'][0]['user_id'].toString(),
+          username: res['data'][0]['username'].toString(),
+          emp_code: res['data'][0]['emp_code'].toString(),
+          emp_name: res['data'][0]['emp_name'].toString(),
+          emp_photo: res['data'][0]['emp_photo'].toString(),
+          emp_route_id: res['data'][0]['emp_route_id'].toString(),
+          emp_route_name: res['data'][0]['emp_route_name'].toString(),
+          emp_car_id: res['data'][0]['emp_car_id'].toString(),
+          emp_car_name: res['data'][0]['emp_car_name'].toString(),
+          company_id: res['data'][0]['company_id'].toString(),
+          branch_id: res['data'][0]['branch_id'].toString(),
+          route_type: res['data'][0]['route_type'].toString(),
+        );
+
+        data.add(userresult);
+
+        final DateTime now = DateTime.now();
+        final DateTime expiryTime = now.add(Duration(seconds: 160000));
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        prefs.setString('user_id', res['data'][0]['user_id'].toString());
+        prefs.setString('emp_code', res['data'][0]['emp_code'].toString());
+        prefs.setString('emp_name', res['data'][0]['emp_name'].toString());
+        prefs.setString('emp_photo', res['data'][0]['emp_photo'].toString());
+        prefs.setString(
+            'emp_route_name', res['data'][0]['emp_route_name'].toString());
+        prefs.setString(
+            'emp_route_id', res['data'][0]['emp_route_id'].toString());
+        prefs.setString('emp_car_id', res['data'][0]['emp_car_id'].toString());
+        prefs.setString(
+            'emp_car_name', res['data'][0]['emp_car_name'].toString());
+        prefs.setString('company_id', res['data'][0]['company_id'].toString());
+        prefs.setString('branch_id', res['data'][0]['branch_id'].toString());
+        // prefs.setString('route_type', res['data'][0]['route_type'].toString());
+
+        prefs.setString('expiryTime', expiryTime.toIso8601String());
+        prefs.setString('working_mode', 'online');
 
         listuserlogin = data;
         _isauthenuser = true;
@@ -214,7 +311,7 @@ class UserData with ChangeNotifier {
   //   try {
   //     http.Response response;
   //     response = await http.post(
-  //       Uri.encodeFull(url_to_user_list),
+  //       Uri.parse(url_to_user_list),
   //       headers: {'Content-Type': 'application/json'},
   //       body: json.encode(filterData),
   //     );
@@ -257,7 +354,7 @@ class UserData with ChangeNotifier {
   // Future<Orders> getDetails() async {
   //   try {
   //     http.Response response;
-  //     response = await http.get(Uri.encodeFull(url_to_user),
+  //     response = await http.get(Uri.parse(url_to_user),
   //         headers: {'Content-Type': 'application/json'});
 
   //     if (response.statusCode == 200) {

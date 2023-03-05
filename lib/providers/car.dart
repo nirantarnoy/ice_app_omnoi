@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:ice_app_new/models/car.dart';
+import 'package:ice_app_new_omnoi/models/car.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CarData with ChangeNotifier {
   final String url_to_car_list =
       //  "http://192.168.1.120/icesystem/frontend/web/api/customer/list";
-      "http://103.253.73.108/icesystem/frontend/web/api/car/list";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/car/list";
   //"http://119.59.100.74/icesystem/frontend/web/api/customer/list";
 
   List<Car> _car;
@@ -56,7 +56,7 @@ class CarData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_car_list),
+        Uri.parse(url_to_car_list),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );

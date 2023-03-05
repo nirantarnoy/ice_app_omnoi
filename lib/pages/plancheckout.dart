@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ice_app_new/models/Addplan.dart';
-import 'package:ice_app_new/models/enum_paytype.dart';
-import 'package:ice_app_new/models/paymentselected.dart';
-import 'package:ice_app_new/pages/main_test.dart';
-import 'package:ice_app_new/pages/ordersuccess.dart';
-import 'package:ice_app_new/pages/payment.dart';
-import 'package:ice_app_new/pages/paymentsuccess.dart';
-import 'package:ice_app_new/pages/plansuccess.dart';
-import 'package:ice_app_new/providers/order.dart';
-import 'package:ice_app_new/providers/paymentreceive.dart';
-import 'package:ice_app_new/providers/plan.dart';
+import 'package:ice_app_new_omnoi/models/Addplan.dart';
+import 'package:ice_app_new_omnoi/models/enum_paytype.dart';
+import 'package:ice_app_new_omnoi/pages/plansuccess.dart';
+import 'package:ice_app_new_omnoi/providers/plan.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -60,13 +52,13 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
                         title: Text('แจ้งเตือน'),
                         content: Text('ต้องการลบข้อมูลใช่หรือไม่'),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(true);
                             },
                             child: Text('ยืนยัน'),
                           ),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(false);
                             },
@@ -89,7 +81,7 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
                       itemlist.removeAt(index);
                     });
 
-                    Scaffold.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Row(
                         children: <Widget>[
                           Icon(
@@ -136,7 +128,7 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
                           //   ],
                           // ),
                           trailing: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
                                 "x${itemlist[index].qty}",
@@ -228,28 +220,28 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
           padding: EdgeInsets.all(0),
           child: Column(
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      color: Colors.green[700],
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(
-                            "${order_items[0].customer_name}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: <Widget>[
+              //     Expanded(
+              //       child: Container(
+              //         color: Colors.green[700],
+              //         child: Padding(
+              //           padding: const EdgeInsets.all(8.0),
+              //           child: Center(
+              //             child: Text(
+              //               "${order_items[0].customer_name}",
+              //               style: TextStyle(
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 15,
+              //                   color: Colors.white),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: 5,
               ),
@@ -276,7 +268,7 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
               Container(
                 color: Colors.grey[300],
                 child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -295,7 +287,7 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
                         child: Container(
                           color: Colors.grey[300],
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(right: 15.0),
@@ -313,41 +305,41 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.grey[300],
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child:
-                              Text('จำนวนเงิน', style: TextStyle(fontSize: 16)),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Colors.grey[300],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 15.0),
-                                child: Text('${formatter.format(total_amount)}',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // Container(
+              //   color: Colors.grey[300],
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(4.0),
+              //     child: Row(
+              //       children: <Widget>[
+              //         Expanded(
+              //           child: Padding(
+              //             padding: const EdgeInsets.only(left: 8.0),
+              //             child:
+              //                 Text('จำนวนเงิน', style: TextStyle(fontSize: 16)),
+              //           ),
+              //         ),
+              //         Expanded(
+              //           child: Container(
+              //             color: Colors.grey[300],
+              //             child: Row(
+              //               mainAxisAlignment: MainAxisAlignment.end,
+              //               children: [
+              //                 Padding(
+              //                   padding: const EdgeInsets.only(right: 15.0),
+              //                   child: Text('${formatter.format(total_amount)}',
+              //                       style: TextStyle(
+              //                           fontSize: 16,
+              //                           color: Colors.red,
+              //                           fontWeight: FontWeight.bold)),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               Row(
                 children: [
                   Expanded(
@@ -382,7 +374,7 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
                               content:
                                   Text('ต้องการบันทึกการชำระเงินใช่หรือไม่'),
                               actions: <Widget>[
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     //Navigator.of(context).pop(true);
                                     _submitForm(order_items[0].customer_id,
@@ -390,7 +382,7 @@ class _PlancheckoutPageState extends State<PlancheckoutPage> {
                                   },
                                   child: Text('ยืนยัน'),
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop(false);
                                   },

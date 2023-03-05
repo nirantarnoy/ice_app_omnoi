@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ice_app_new/models/findtransfer.dart';
-import 'package:ice_app_new/pages/transferin_review.dart';
-import 'package:ice_app_new/providers/transferin.dart';
+import 'package:ice_app_new_omnoi/models/findtransfer.dart';
+import 'package:ice_app_new_omnoi/pages/transferin_review.dart';
+import 'package:ice_app_new_omnoi/providers/transferin.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

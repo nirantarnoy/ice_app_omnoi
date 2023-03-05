@@ -40,7 +40,7 @@ class _AuthPageState extends State<AuthPage> {
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 70.0,
-          child: Image.asset('assets/logo_head.png'),
+          child: Image.asset('assets/VP.png'),
           // child: Text('ICE',
           //     style: TextStyle(
           //         fontSize: 38.0,
@@ -144,7 +144,7 @@ class _AuthPageState extends State<AuthPage> {
     //       title: Text('Sucess!'),
     //       content: Text(''),
     //       actions: <Widget>[
-    //         FlatButton(
+    //         TextButton(
     //           child: Text('ตกลง'),
     //           onPressed: () {
     //             Navigator.of(context).pop();
@@ -165,7 +165,7 @@ class _AuthPageState extends State<AuthPage> {
       //       title: Text('Sucess!'),
       //       content: Text(''),
       //       actions: <Widget>[
-      //         FlatButton(
+      //         TextButton(
       //           child: Text('ตกลง'),
       //           onPressed: () {
       //             Navigator.of(context).pop();
@@ -185,7 +185,7 @@ class _AuthPageState extends State<AuthPage> {
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
             content: Text('ชื่อหรือรหัสผ่านไม่ถูกต้อง'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('OK',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.red)),
@@ -231,6 +231,13 @@ class _AuthPageState extends State<AuthPage> {
                   child: Column(
                     children: <Widget>[
                       _showLogo(),
+                      // Text(
+                      //   'VP ICE',
+                      //   style: TextStyle(
+                      //       fontSize: 50,
+                      //       fontWeight: FontWeight.bold,
+                      //       color: Colors.blue[700]),
+                      // ),
                       SizedBox(
                         height: 20,
                       ),
@@ -240,7 +247,7 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                       _buildPasswordTextField(),
 
-                      // FlatButton(
+                      // TextButton(
                       //   child: Text(
                       //       'Switch to ${_authMode == AuthMode.Login ? 'Signup' : 'Login'}'),
                       //   onPressed: () {
@@ -259,13 +266,16 @@ class _AuthPageState extends State<AuthPage> {
                         child: SizedBox(
                           height: 45.0,
                           width: targetWidth,
-                          child: new RaisedButton(
-                              elevation: 5,
-                              splashColor: Colors.grey,
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(30.0)),
-                              color: Colors.blue[700],
+                          child: new ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue[700],
+                                elevation: 5,
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)),
+                                textStyle: TextStyle(color: Colors.white),
+                                padding: EdgeInsets.only(left: 8),
+                              ),
                               child: new Text('เข้าสู่ระบบ',
                                   style: new TextStyle(
                                       fontSize: 20.0, color: Colors.white)),
@@ -277,7 +287,11 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[Text('version 1.0')],
+                        children: <Widget>[Text('version 2.1')],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[Text('omnoi update 07-07-2022')],
                       )
                     ],
                   ),

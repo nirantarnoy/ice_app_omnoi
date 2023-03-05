@@ -3,21 +3,21 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:ice_app_new/models/transferout.dart';
-import 'package:ice_app_new/models/transferproduct.dart';
+import 'package:ice_app_new_omnoi/models/transferout.dart';
+import 'package:ice_app_new_omnoi/models/transferproduct.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TransferoutData with ChangeNotifier {
   final String url_to_out_list =
       //  "http://192.168.1.120/icesystem/frontend/web/api/transfer/outlist";
-      "http://103.253.73.108/icesystem/frontend/web/api/transfer/outlistnew";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/transfer/outlistnew";
   final String url_to_in_list =
       //   "http://192.168.1.120/icesystem/frontend/web/api/transfer/inlist";
-      "http://103.253.73.108/icesystem/frontend/web/api/transfer/inlist";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/transfer/inlist";
   //"http://103.253.73.108/icesystem/frontend/web/api/customer/list";
   final String url_to_add_transfer =
       //   "http://192.168.1.120/icesystem/frontend/web/api/transfer/inlist";
-      "http://103.253.73.108/icesystem/frontend/web/api/transfer/addtransfer";
+      "http://103.253.73.108/icesystemomnoi/frontend/web/api/transfer/addtransfer";
   //"http://103.253.73.108/icesystem/frontend/web/api/customer/list";
 
   List<Transferout> _transferout;
@@ -89,7 +89,7 @@ class TransferoutData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_out_list),
+        Uri.parse(url_to_out_list),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );
@@ -147,7 +147,7 @@ class TransferoutData with ChangeNotifier {
     try {
       http.Response response;
       response = await http.post(
-        Uri.encodeFull(url_to_in_list),
+        Uri.parse(url_to_in_list),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(filterData),
       );
@@ -208,11 +208,13 @@ class TransferoutData with ChangeNotifier {
     String _route_id = '';
     String _company_id = "";
     String _branch_id = "";
+    String _user_id = "";
     if (prefs.getString('user_id') != null) {
       _from_car_id = prefs.getString('emp_car_id');
       _route_id = prefs.getString('emp_route_id');
       _company_id = prefs.getString('company_id');
       _branch_id = prefs.getString('branch_id');
+      _user_id = prefs.getString('user_id');
     }
 
     var jsonx = transferdata
@@ -220,7 +222,7 @@ class TransferoutData with ChangeNotifier {
               'product_id': e.id,
               'qty': e.qty,
               'price': e.sale_price,
-              'issue_id': e.issue_ref_id
+              'issue_id': e.issue_ref_id,
             })
         .toList();
 
@@ -234,11 +236,12 @@ class TransferoutData with ChangeNotifier {
       'data': jsonx,
       'company_id': _company_id,
       'branch_id': _branch_id,
+      'user_id': _user_id,
     };
     print('data will save is ${dataAdd}');
     try {
       http.Response response;
-      response = await http.post(Uri.encodeFull(url_to_add_transfer),
+      response = await http.post(Uri.parse(url_to_add_transfer),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(dataAdd));
 
